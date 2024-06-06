@@ -20,11 +20,32 @@
 void example(void);
 void swap(int & n_1, int & n_2);
 void swap_2(int *n_1, int *n_2);
+double cube(const double &entity);
+const char *new_string(const char *old_str, int str_length);
 int main(void)
 {
   using namespace std;
-  cout << "Everything works alright.";
-  example();
+//   cout << "Everything works alright.";
+//   example();
+	// double side = 3.0l;
+	// double *p = &side;
+	// double &ref = side;//create a ref
+	// cout << "\n" << cube(side);
+	// cout << "\n" << cube(*p);
+	// cout << "\n" << cube(ref);
+	// cout << "\n" << cube(3.0);
+	// //rvalue:
+	// double && rvalue = sqrt(26.34);
+	// cout << "\nThe result: " << rvalue;
+	const char *s = "What a wonderful day.";
+	const char *new_s = new_string(s, 10);
+	puts(new_s);
+	//second arr:
+	const char *s_2 = "A second example of a string";
+	const char *s_2_new = new_string(s_2, 12);
+	puts(s_2_new);
+	delete []s_2_new;
+	delete []new_s;
   return 0;
 }
 void example(void)
@@ -52,4 +73,31 @@ void swap_2(int *n_1, int *n_2)
 	int temp = *n_1;
 	*n_1 = *n_2;
 	*n_2 = temp;
+}
+//the const &: 
+double cube(const double &entity)
+{
+	return entity * entity * entity;
+}
+//the func should return a new string with the str_length elements of the old string
+const char *new_string(const char *old_str, int str_length = 1)
+{
+	using namespace std;
+	if(old_str == nullptr)
+		return NULL;
+	//it's not empty:
+	char *new_str = new char[str_length + 1];
+	if(new_str == nullptr)
+	{
+		perror("Unable to allocate memory. Exiting... ");
+		exit(EXIT_FAILURE);
+	}
+	 int i = 0;//register is not allowed
+	for(; i < str_length && old_str[i];++i)//provided that the user selects more chars than there 
+	//is in an array
+	{
+		new_str[i] = old_str[i];
+	}
+	new_str[i] = '\0';
+	return new_str;
 }
