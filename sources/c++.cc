@@ -22,6 +22,7 @@ void swap(int & n_1, int & n_2);
 void swap_2(int *n_1, int *n_2);
 double cube(const double &entity);
 const char *new_string(const char *old_str, int str_length);
+const char *addString(const char *old_string, const char *string_to_add);
 int main(void)
 {
   using namespace std;
@@ -37,15 +38,21 @@ int main(void)
 	// //rvalue:
 	// double && rvalue = sqrt(26.34);
 	// cout << "\nThe result: " << rvalue;
-	const char *s = "What a wonderful day.";
-	const char *new_s = new_string(s, 10);
-	puts(new_s);
-	//second arr:
-	const char *s_2 = "A second example of a string";
-	const char *s_2_new = new_string(s_2, 12);
-	puts(s_2_new);
-	delete []s_2_new;
-	delete []new_s;
+	// const char *s = "What a wonderful day.";
+	// const char *new_s = new_string(s, 10);
+	// puts(new_s);
+	// //second arr:
+	// const char *s_2 = "A second example of a string";
+	// const char *s_2_new = new_string(s_2, 12);
+	// puts(s_2_new);
+	// delete []s_2_new;
+	// delete []new_s;
+	char str1[] = "A first string.";
+	const char *str2 = " This one should go afterwards";
+	const char *tog = addString(str1, str2);
+	puts(tog); 
+	cout << "The length of the string: " << strlen(tog) << "\n";
+	free((void *)tog);
   return 0;
 }
 void example(void)
@@ -100,4 +107,38 @@ const char *new_string(const char *old_str, int str_length = 1)
 	}
 	new_str[i] = '\0';
 	return new_str;
+}
+const char *addString(const char *old_string, const char *string_to_add)
+{
+	if(old_string == nullptr)
+		return NULL;
+	else if(string_to_add == nullptr)
+		return old_string;
+	//allocate the memory for the new string:
+	size_t total_string_length = 0;
+	while(old_string[total_string_length])
+		++total_string_length;
+	unsigned int temp = 0;
+	while(string_to_add[temp++])
+		++total_string_length;
+	
+	//allocate memory:
+	char *new_string = (char *)malloc(sizeof(char)*(total_string_length + 1));
+	if(new_string == nullptr)
+	{
+		perror("Unable to allocate memory.");
+		exit(EXIT_FAILURE);
+	}
+	size_t new_arr_index = 0, old_arr_index = 0;
+	while(old_string[old_arr_index])
+	{
+		new_string[new_arr_index++] = old_string[old_arr_index++];
+	}
+	old_arr_index = 0;
+	while(string_to_add[old_arr_index])
+	{
+		new_string[new_arr_index++] = string_to_add[old_arr_index++];
+	}
+	new_string[new_arr_index] = '\0';//terminate the new string;
+	return new_string;
 }

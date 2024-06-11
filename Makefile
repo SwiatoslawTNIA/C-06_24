@@ -18,10 +18,12 @@ vpath %.h headers
 %.o: %.c++
 	$(COMPILE.C) $(OUTPUT_OPTION) $<
 
-run: c++
-	valgrind ./c++
+run: templates
+	valgrind ./templates
 
 c++: c++.o
+templates: templates.o
+templates.o: templates.cc templates.h
 c++.o: c++.cc c++.h
 
 .INTERMEDIATE: *.o
