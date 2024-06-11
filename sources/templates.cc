@@ -11,6 +11,13 @@ void add_some(T_1 x, T_2 y);
 
 template <class T_1, typename T_2>
 auto add_some_better(T_1 x, T_2 y) -> decltype(x + y);
+//exercise 4:
+template <class new_type>
+new_type maxn(new_type arr[], const unsigned int arr_length);
+
+//specialization:
+template <> 
+const char *maxn<const char *>(const char* arr_of_pointers[], const unsigned int num_of_pointers);
 int main(void)
 {
    using namespace std;
@@ -24,7 +31,19 @@ int main(void)
    // double num_2 = 4231.123123;
    // add_some(num_1, num_2);//the resulting type is double (d)
    // cout << "\nThe value";
-   convert();
+   // convert();
+   //exercise 7:
+   double arr[] = {34.324, 2234.234, -23.123};
+   int arr_2[] = {23, -11, -12};
+   cout << "maxn on arr: " << maxn(arr, 3);
+   cout << "\nmaxn on arr_2: " << maxn(arr_2, 3);
+   //trying to use specialization for the const char *s[] type:
+   const char *arr_3[] = {
+      "Jam", "Basketball", "Jolly", "Jenifer Natali", "Joseph MOurne"
+   };
+   const char *longest_string = maxn(arr_3, 5);
+   cout << "\nThe longest string is: ";
+   puts(longest_string);
    return 0;
 }
 void swap_double(double &a, double &b)
@@ -73,7 +92,7 @@ void convert(void)
       cout << "\nEnter a string (q to quit): ";
       char arr[121];//the max length is 120;
       cin.getline(arr, 121);
-      
+
       if(arr[0] == 'q' && arr[1] == '\0')
       {
          done = true;
@@ -82,7 +101,37 @@ void convert(void)
       cout << "\n";
       for(int i = 0; arr[i] != '\0';++i)
       {//before giving the value to toupper, we should ensure, that that char is of type char:
-         cout << static_cast<char>(toupper(static_cast<unsigned char>arr[i]));
+         cout << static_cast<char>(toupper(static_cast<unsigned char>(arr[i])));
       }
    }
+}
+template <class new_type>
+new_type maxn(new_type arr[], const unsigned int arr_length)
+{
+   new_type largest_element = arr[0];
+   for(unsigned int i = 1; i < arr_length;++i)
+   {
+      if(largest_element < arr[i])
+         largest_element = arr[i];
+   }
+   return largest_element;
+}
+template <> 
+const char * maxn<const char *>(const char* arr_of_pointers[], const unsigned int num_of_pointers)
+{
+   unsigned long int max_length = 0, current_length = 0;
+   const char *longest_string = NULL;
+   if (*arr_of_pointers == NULL)
+      return NULL;
+   for(unsigned int i = 0; i < num_of_pointers;++i)//move through each of the pointers
+   {
+      for(int j = 0; arr_of_pointers[i][j] != '\0'; ++j, current_length++)
+         ;//calculate the length of the current string
+      if(max_length < current_length)
+      {
+         max_length = current_length;
+         longest_string = arr_of_pointers[i];//set the pointer to point to the current string
+      }
+   }  
+   return longest_string;
 }
