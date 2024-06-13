@@ -142,3 +142,5 @@ const char *addString(const char *old_string, const char *string_to_add)
 	new_string[new_arr_index] = '\0';//terminate the new string;
 	return new_string;
 }
+
+

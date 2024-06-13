@@ -20,14 +20,19 @@ vpath %.h headers
 %.o: %.c++
 	$(COMPILE.C) $(OUTPUT_OPTION) $^
 
-run: namespaces
-	valgrind ./namespaces
+run: classes
+	valgrind ./classes
 
-namespaces: namespaces.o namespaces_add.o
-namespaces_add.o: namespaces_add.cc
-# .PHONY: namespaces
-# namespaces: $(files)
-namespaces.o: namespaces.cc namespaces.h
+
+classes: classes.o stocks.o stacks.o
+stacks.o: stacks.cc stacks.h
+classes.o: classes.cc 
+stocks.o: stocks.cc stocks.h
+# namespaces: namespaces.o namespaces_add.o
+# namespaces_add.o: namespaces_add.cc
+# # .PHONY: namespaces
+# # namespaces: $(files)
+# namespaces.o: namespaces.cc namespaces.h
 # c++: c++.o
 # templates: templates.o
 # templates.o: templates.cc templates.h
